@@ -20,6 +20,7 @@ def position(request):
     elif request.method == 'POST':
         sts = io.BytesIO(request.body)
         data = JSONParser().parse(sts)
+        print(data)
         serializer = PositionSerializer(data=data)
         if serializer.is_valid():
             serializer.save()

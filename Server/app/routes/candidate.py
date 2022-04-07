@@ -20,6 +20,7 @@ def candidate(request):
     elif request.method == 'POST':
         sts = io.BytesIO(request.body)
         data = JSONParser().parse(sts)
+        print(data)
         serializer = CandidateSerializer(data=data)
         if serializer.is_valid():
             serializer.save()
