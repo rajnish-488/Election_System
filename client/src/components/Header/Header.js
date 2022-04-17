@@ -58,16 +58,19 @@ export default function Example() {
           <Popover.Group as="nav" className="hidden md:flex space-x-10">
             
 
-            <a href="https://coderceo.com" className="text-base font-medium text-gray-500 hover:text-gray-900">
+            <a href="/" className="text-base font-medium text-gray-500 hover:text-gray-900">
               HOME
             </a>
-            <a href="https://coderceo.com" className="text-base font-medium text-gray-500 hover:text-gray-900">
+            <a href="/admin" className="text-base font-medium text-gray-500 hover:text-gray-900">
+              ADMIN
+            </a>
+            <a href="/apply" className="text-base font-medium text-gray-500 hover:text-gray-900">
               APPLY
             </a>
-            <a href="https://coderceo.com" className="text-base font-medium text-gray-500 hover:text-gray-900">
+            <a href="/voting" className="text-base font-medium text-gray-500 hover:text-gray-900">
               VOTING
             </a>
-            <a href="https://coderceo.com" className="text-base font-medium text-gray-500 hover:text-gray-900">
+            <a href="/result" className="text-base font-medium text-gray-500 hover:text-gray-900">
               RESULT
             </a>
 
@@ -78,7 +81,7 @@ export default function Example() {
               Sign in
             </a>
             <a
-              href="https://coderceo.com"
+              href="/register"
               className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
             >
               Sign up

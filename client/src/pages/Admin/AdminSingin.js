@@ -12,27 +12,25 @@ import DoNotDisturbIcon from '@mui/icons-material/DoNotDisturb';
 import DangerousIcon from '@mui/icons-material/Dangerous';
 
 
+
 export default function Example() {
   const [Username, setUsername] = useState("");
   const [Password, setPassword] = useState("");
-  const [Remember, setRemember] = useState(null);
   const [data, setData] = useState({});
   const handleClick = async(e) =>{
     e.preventDefault();
-    const url = "http://localhost:5000/api/signinVoter/"+ Username + "/"
+    const url = "http://localhost:5000/api/signin/"+ Username + "/"
     try{
       await axios.get(url).then((res) => {
         if (res.data){
           setData(res.data)
           console.log(data);
-          console.log(Remember);
         }else{
           alert("Something went wrong");
         }
       })
       if(data.password === Password){
         window.location.href = "/";
-        localStorage.setItem("username",Username);
       }else{
          setOpen(true);
       }
@@ -67,7 +65,7 @@ export default function Example() {
               src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
               alt="Workflow"
             />
-            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
+            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">ADMIN SINGN IN</h2>
             
           </div>
           <form className="mt-8 space-y-6" action="#" method="POST">
@@ -104,28 +102,6 @@ export default function Example() {
                   />
               </div>
             </div>
-
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <input
-                  id="remember-me"
-                  name="remember-me"
-                  type="checkbox"
-                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-                  onChange={e => setRemember(e.target.value)}
-                />
-                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-                  Remember me
-                </label>
-              </div>
-
-              <div className="text-sm">
-                <a href="/register" className="font-medium text-indigo-600 hover:text-indigo-500">
-                  Forgot your password?
-                </a>
-              </div>
-            </div>
-
             <div>
               <button
                 onClick={handleClick}
@@ -135,7 +111,7 @@ export default function Example() {
                 <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                   <LockClosedIcon className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" aria-hidden="true" />
                 </span>
-                Sign in
+                Admin Sign in
               </button>
             </div>
           </form>

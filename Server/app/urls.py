@@ -1,5 +1,5 @@
 from django.urls import path
-from .routes import admin, voters,position,candidate,vote,winner,signin
+from .routes import admin, voters,position,candidate,vote,winner,signin,Candiadtelimit
 
 from . import views
 
@@ -28,4 +28,7 @@ urlpatterns = [
     path("winner/<int:id>/", winner.WinnerID, name='winnerID'),
 
     path("signin/<str:username>/",signin.signin , name="signin"),
+    path("signinVoter/<str:username>/",signin.signinVoter , name="signinVoter"),
+
+    path("candlimit/",Candiadtelimit.candidateLimit , name="climit"),
 ]

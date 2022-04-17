@@ -6,6 +6,8 @@ from rest_framework.parsers import JSONParser
 import io
 from ..models import Admin
 from ..serializers import AdminSerializer
+from ..models import Voters
+from ..serializers import VotersSerializer
 
 
 
@@ -23,4 +25,16 @@ def signin(request, username):
         js_data = JSONRenderer().render(serializer.data)
         return HttpResponse(js_data, content_type='application/json')
 
+
+@csrf_exempt
+def signinVoter(request, username):
+    print(username)
+    try:
+        snippet = Voters.objects.get(username= username)
+    except Voters.DoesNotExist:
+        return HttpResponse("The Username donet exist", status=404)
+    if request.method == "GET":
+        serializer = VotersSerializer(snippet)
+        js_data = JSONRenderer().render(serializer.data)
+        return HttpResponse(js_data, content_type='application/json')
     
