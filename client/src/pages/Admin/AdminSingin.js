@@ -30,7 +30,8 @@ export default function Example() {
         }
       })
       if(data.password === Password){
-        window.location.href = "/";
+        window.location.href = "/adminpanal";
+        localStorage.setItem("Admin",Username);
       }else{
          setOpen(true);
       }
