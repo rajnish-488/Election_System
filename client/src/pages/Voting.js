@@ -6,6 +6,7 @@ import VtingC from '../components/VtingC';
 const Voting = () => {
   const [apply, setApply] = useState({});
   const [position, setPosition] = useState([]);
+  const [user, setUser] = useState({});
   useEffect(()=>{
     const user=localStorage.getItem("username");
     if( !user ){
@@ -20,12 +21,16 @@ const Voting = () => {
       await axios.get(url3).then((res) => {
         setApply(res.data);
       })
+      const url2 = "http://localhost:5000/api/signinVoter/"+ user + "/"
+          await axios.get(url2).then((res)=>{
+            setUser(res.data)
+        })
     }
     fun()
   },[])
   return (
     <div>
-      { apply.Voting==="True"?<VtingC data={ position } />:<Sorry data={ "Give the Vote"} />}
+      { apply.Voting==="True"?<VtingC data={ position } userData= { user }/>:<Sorry data={ "Give the Vote"} />}
     </div>
   )
 }

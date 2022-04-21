@@ -7,8 +7,13 @@ const useStyles = makeStyles({
     root: {
       width: "100%",
       textAlign: "center"
+    },
+    center: {
+        // display: "flex",
+        // justifyContent: "center"
+        width: "100%"
     }
-  });
+});
 
 const VtingC = (props) => {
     const classes=useStyles();
@@ -17,11 +22,15 @@ const VtingC = (props) => {
             <Typography variant="h3" component="div" gutterBottom>
                 Voting For GymKhana
             </Typography>
-            {
-                props.data.map((e,index)=>{
-                    return <VotingBox data ={e} />
-                })
-            }
+            <div className={ classes.center}>
+                {
+                    props.data.map((e,index)=>{
+                        return <VotingBox data ={e} userdata={props.userData} />
+                    })
+                }
+
+            </div>
+            
         </div>
     )
 }
