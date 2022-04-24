@@ -24,10 +24,10 @@ def result(request,id):
             user=Voters.objects.get(id=cl[x]['voters'])
             suser=VotersSerializer(user)
             count=len(cl[x]["vote"])
+            qwer=str(suser.data['name'])+" ("+str(suser.data['regno'])+")"
             dir={
-                "candlname":suser.data['name'] ,
-                "regno": suser.data['regno'],
-                "voteno": count   
+                "name":qwer,
+                "value": count   
             }
             ans.append(dir)
         js_data = JSONRenderer().render(ans)

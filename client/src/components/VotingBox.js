@@ -1,5 +1,4 @@
 import React, {useEffect,useState} from 'react'
-import Typography from '@mui/material/Typography';
 import axios from "axios";
 import { makeStyles } from "@mui/styles";
 import Grid from '@mui/material/Grid';
@@ -7,7 +6,10 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 const useStyles = makeStyles({
   root: {
@@ -22,6 +24,10 @@ const useStyles = makeStyles({
     display: "flex",
     justifyContent: "center"
   }
+});
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
 const VotingBox = (props) => {
@@ -42,7 +48,42 @@ const VotingBox = (props) => {
     const handleChange = (event) => {
         setcand(event.target.value);
     };
+    const [open, setOpen] = React.useState(false);
+    
+      const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
+        }
+    
+        setOpen(false);
+      };
+    const handleClick = () =>{
+      //  console.log(props.data.id);
+      //  console.log(props.userdata.id);
+      //  console.log(cand);
+      if(cand!==""){
+        const fun = async() =>{
+          const url="http://localhost:5000/api/vote/";
+          const artical={
+            "voters": props.userdata.id,
+            "position": props.data.id,
+            "candidate": cand
+          }
+          await axios.post(url , artical).then((res) => {
+            console.log(res.data);
+            props.setit(!props.re);
+          });
+        }
+        fun()
+      }else{
+        setOpen(true);
+      }
+      
+    }
+    
+      
   return (
+    <div>
     <div className={ classes.center }>
       <div className={ classes.root }>
       <Grid container spacing={2}>
@@ -68,10 +109,18 @@ const VotingBox = (props) => {
         </FormControl> 
         </Grid>
         <Grid item xs={12} md={4}>
-          <Button variant="contained" size="large">Submit Vote</Button>
+          <Button variant="contained" size="large" onClick={()=>{ handleClick() }}>Submit Vote</Button>
         </Grid>
       </Grid>
       </div>
+      </div>
+      <Stack spacing={2} sx={{ width: '100%' }}>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="error" sx={{ width: '100%' }}>
+          Please Select an Candidate
+        </Alert>
+      </Snackbar>
+    </Stack>
     </div>
     
   )
