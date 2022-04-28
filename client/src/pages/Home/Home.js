@@ -19,9 +19,6 @@ const Home = () => {
   const [candidate, setCandidate] = useState([]);
   useEffect(() => {
     const user=localStorage.getItem("username");
-    if( !user ){
-      window.location.href = "/signin";
-    }
     const fun = async() =>{
       const url="http://localhost:5000/api/position/"
       await axios.get(url).then((res) => {

@@ -1,6 +1,6 @@
 from turtle import position
 from rest_framework import serializers
-from .models import Admin,Vote,Voters,Candidate,Winner,Position
+from .models import Admin,Vote,Voters,Candidate,Winner,Position, Images
 
 
 
@@ -85,3 +85,7 @@ class WinnerSerializer(serializers.ModelSerializer):
         model = Winner
         fields = ['id','ratio','position','candidate']
 
+class ImagesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Images
+        fields = ['id','userid','img']

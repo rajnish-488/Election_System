@@ -1,5 +1,5 @@
 /* This example requires Tailwind CSS v2.0+ */
-import { Fragment } from 'react'
+import { Fragment, useState,useEffect } from 'react'
 import { Popover, Transition } from '@headlessui/react'
 import {
   BookmarkAltIcon,
@@ -9,8 +9,10 @@ import {
   SupportIcon, 
   XIcon,
 } from '@heroicons/react/outline'
-
-
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Avatar from '@mui/material/Avatar';
+import axios from 'axios';
 
 const resources = [
   {
@@ -35,6 +37,119 @@ const resources = [
 ]
 
 export default function Example() {
+  const [user, setUser] = useState(null);
+  const [admin, setAdmin] = useState(null);
+  const [userInfo, setUserInfo] = useState({});
+  const [images, setImages] = useState(null);
+  useEffect(()=>{
+    const use = window.localStorage.getItem("username");
+    const adm = window.localStorage.getItem("Admin");
+    setUser(use)
+    setAdmin(adm);
+    let useid= null;
+    const fun = async() =>{
+      const url="http://localhost:5000/api/signinVoter/"+use+ "/";
+      await axios.get(url).then((res) => {
+        setUserInfo(res.data);
+        // console.log(res.data);
+        useid=res.data.id
+      })
+      const urls="http://localhost:5000/api/images/"+ useid + "/";
+      await axios.get(urls).then((res) => {
+          setImages(res.data.img)
+          // console.log(res.data.img);
+      })
+    }
+    fun()
+  },[]);
+  const userhead = () =>{
+      if(user){
+        return <>
+        <a href="/apply" className="text-base font-medium text-gray-500 hover:text-gray-900">
+              APPLY
+            </a>
+            <a href="/voting" className="text-base font-medium text-gray-500 hover:text-gray-900">
+              VOTING
+            </a>
+            <a href="/result" className="text-base font-medium text-gray-500 hover:text-gray-900">
+              RESULT
+            </a>
+        </>
+      }else{
+        return
+      }
+  }
+  const adminhead = () =>{
+    if (admin){
+      return <>
+      <a href="/adminpanal" className="text-base font-medium text-gray-500 hover:text-gray-900">
+              ADMINPANAL
+      </a>
+      </>
+    }
+  }
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+    
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+    console.log("Normal Close");
+
+  };
+  const handleCloseP = () => {
+    setAnchorEl(null);
+    console.log("profile");
+    window.location.href= "/profile"
+
+  };
+  const handleCloseL = () => {
+    setAnchorEl(null);
+    console.log("logout");
+    window.localStorage.removeItem("username")
+    setUser(null);
+  }
+  const avatar = () => {
+    if (user) {
+      return <>
+      <div>
+      <Avatar
+        alt="Remy Sharp"
+        src={images?images:"https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"}
+        sx={{ width: 56, height: 56 }}
+        onClick={handleClick}
+      />
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}
+      >
+        <MenuItem onClick={handleCloseP}>Profile</MenuItem>
+        <MenuItem onClick={handleCloseL}>Logout</MenuItem>
+      </Menu>
+    </div>
+      </>;
+    }else{
+      return <>
+      <a href="/signin" className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900">
+        Sign in
+      </a>
+      <a
+        href="/register"
+        className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
+      >
+        Register
+      </a>
+    </>
+    }
+  }
+  
   return (
     <Popover className="relative bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -64,28 +179,20 @@ export default function Example() {
             <a href="/admin" className="text-base font-medium text-gray-500 hover:text-gray-900">
               ADMIN
             </a>
-            <a href="/apply" className="text-base font-medium text-gray-500 hover:text-gray-900">
-              APPLY
-            </a>
-            <a href="/voting" className="text-base font-medium text-gray-500 hover:text-gray-900">
-              VOTING
-            </a>
-            <a href="/result" className="text-base font-medium text-gray-500 hover:text-gray-900">
-              RESULT
-            </a>
+            {
+              adminhead()
+            }
+            { 
+                userhead()
+            }
+            
 
            
           </Popover.Group>
           <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
-            <a href="/signin" className="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900">
-              Sign in
-            </a>
-            <a
-              href="/register"
-              className="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
-            >
-              Sign up
-            </a>
+            {
+              avatar()
+            }
           </div>
         </div>
       </div>
@@ -121,41 +228,30 @@ export default function Example() {
             </div>
             <div className="py-6 px-5 space-y-6">
               <div className="grid grid-cols-2 gap-y-4 gap-x-8">
-                <a href="https://coderceo.com" className="text-base font-medium text-gray-900 hover:text-gray-700">
-                  Home
-                </a>
-
-                <a href="https://coderceo.com" className="text-base font-medium text-gray-900 hover:text-gray-700">
-                    Apply
-                </a>
-                <a href="https://coderceo.com" className="text-base font-medium text-gray-900 hover:text-gray-700">
-                  Voting
-                </a>
-
-                <a href="https://coderceo.com" className="text-base font-medium text-gray-900 hover:text-gray-700">
-                  Result
-                </a>
-                {resources.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    className="text-base font-medium text-gray-900 hover:text-gray-700"
-                  >
-                    {item.name}
-                  </a>
-                ))}
+              <a href="/" className="text-base font-medium text-gray-500 hover:text-gray-900">
+                HOME
+              </a>
+              <a href="/admin" className="text-base font-medium text-gray-500 hover:text-gray-900">
+                ADMIN
+              </a>
+              {
+                adminhead()
+              }
+                {
+                  userhead()
+                }
               </div>
               <div>
                 <a
-                  href="https://coderceo.com"
+                  href="/signin"
                   className="w-full flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700"
                 >
                   Sign up
                 </a>
                 <p className="mt-6 text-center text-base font-medium text-gray-500">
                   Existing customer?{' '}
-                  <a href="https://coderceo.com" className="text-indigo-600 hover:text-indigo-500">
-                    Sign in
+                  <a href="/register" className="text-indigo-600 hover:text-indigo-500">
+                    Register
                   </a>
                 </p>
               </div>

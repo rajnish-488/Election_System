@@ -5,6 +5,7 @@
 #   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
 #   * Remove `managed = True` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
+from distutils.command.upload import upload
 from django.db import models
 
 
@@ -18,6 +19,9 @@ class Admin(models.Model):
     class Meta:
         managed = True
         db_table = 'admin'
+
+def upload_path(instance, filname):
+    return '/'.join(['covers', str(instance.id), str(instance.id)])
 
 class Voters(models.Model):
     id = models.AutoField(primary_key=True)
@@ -91,3 +95,12 @@ class Winner(models.Model):
     class Meta:
         managed = True
         db_table = 'winner'
+
+class Images(models.Model):
+    id= models.AutoField(primary_key=True)
+    userid = models.IntegerField(unique=True)
+    img= models.TextField(null=True, blank= True, max_length=100000)
+
+    class Meta:
+        managed= True
+        db_table= 'image'

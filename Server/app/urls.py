@@ -1,5 +1,5 @@
 from django.urls import path
-from .routes import admin, voters,position,candidate,vote,winner,signin,Candiadtelimit,auth,posCandUser,result,posvoted
+from .routes import admin, voters,position,candidate,vote,winner,signin,Candiadtelimit,auth,posCandUser,result,posvoted,images
 
 from . import views
 
@@ -27,6 +27,9 @@ urlpatterns = [
     path("winner/", winner.winner, name="winner"),
     path("winner/<int:id>/", winner.WinnerID, name='winnerID'),
 
+    path("images/", images.images, name="images"),
+    path("images/<int:id>/", images.imagesID, name='imagesID'),
+
     path("signin/<str:username>/",signin.signin , name="signin"),
     path("signinVoter/<str:username>/",signin.signinVoter , name="signinVoter"),
 
@@ -36,4 +39,6 @@ urlpatterns = [
     path("poscanduser/<int:id>/",posCandUser.solve,name='poscanduser'),
     path("result/<int:id>/", result.result, name="reslut"),
     path("posvoted/<str:username>/",posvoted.solve, name="posvoted")
+
+    
 ]

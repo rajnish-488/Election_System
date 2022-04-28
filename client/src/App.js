@@ -12,6 +12,7 @@ import Apply from "./pages/Apply";
 import Voting from "./pages/Voting";
 import Result from "./pages/Result";
 import AdminPanal from "./pages/AdminPanal";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
             <Route path="/signin" element={<Signin/>}/>
             <Route path="/admin" element={<Admin/>}/>
             <Route path="/register" element={<Register/>}/>
+            <Route path="/profile" element={<Profile />}/>
             <Route path="/" element={<Home/>}/>
             </Routes>
       </div>
