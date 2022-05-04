@@ -1,6 +1,7 @@
 import React from 'react'
 import WebcamR from "react-webcam";
 import { makeStyles } from "@mui/styles";
+import Button from '@mui/material/Button';
 
 const useStyles = makeStyles({
     root: {
@@ -8,6 +9,11 @@ const useStyles = makeStyles({
         display: "flex",
         justifyContent: "column",
         textAlign: "center"
+    },
+    root2:{
+      width: "100%",
+      textAlign: "center",
+      marginTop: "20px"
     }
 });
 
@@ -39,10 +45,13 @@ const Webcam = ( props ) => {
             width={400}
             videoConstraints={videoConstraints}
           />
-          <button 
-          onClick={ (e)=>{e.preventDefault();capture(); } }>
-          Capture</button>
         </div>
+        <div className={ classes.root2 }>
+          <Button variant="contained" color="success" size="large" onClick={ (e)=>{e.preventDefault();capture(); } }>
+            Capture Image
+          </Button>
+        </div>
+       
     </div>
   )
 }

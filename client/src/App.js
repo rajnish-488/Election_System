@@ -12,7 +12,8 @@ import Apply from "./pages/Apply";
 import Voting from "./pages/Voting";
 import Result from "./pages/Result";
 import AdminPanal from "./pages/AdminPanal";
-import Profile from "./pages/Profile";
+import ProfileChange from "./pages/ProfileChange";
+import ProfileData from "./pages/ProfileData";
 
 function App() {
   return (
@@ -27,7 +28,8 @@ function App() {
             <Route path="/signin" element={<Signin/>}/>
             <Route path="/admin" element={<Admin/>}/>
             <Route path="/register" element={<Register/>}/>
-            <Route path="/profile" element={<Profile />}/>
+            <Route path="/profile" element={<ProfileData />}/>
+            <Route path="/profilechange" element={<ProfileChange />}/>
             <Route path="/" element={<Home/>}/>
             </Routes>
       </div>

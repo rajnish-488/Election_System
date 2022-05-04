@@ -28,7 +28,7 @@ const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const Profile = ( props ) => {
+const ProfileChange = ( props ) => {
   const classes= useStyles();
   const [image, setImage] = useState(null);
   const [userInfo, setUserInfo] = useState({});
@@ -38,22 +38,7 @@ const Profile = ( props ) => {
   };
   const handleToggle = () => {
     setOpen(!open);
-  };
-
-  const [open2, setOpen2] = React.useState(false);
-
-  const handleClick2 = () => {
-    setOpen2(true);
-  };
-
-  const handleClose2 = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setOpen2(false);
-  };
-  
+  };  
   useEffect(()=>{
     const user=localStorage.getItem("username");
     if( !user ){
@@ -72,18 +57,15 @@ const Profile = ( props ) => {
   const handle =()=>{
       const fun = async() => {
         handleToggle();
-        const urls="http://localhost:5000/api/imgcheck/"+ userInfo.id + "/";
+        const urls="http://localhost:5000/api/images/"+ userInfo.id + "/";
         const article={
           userid: userInfo.id,
           img: image
         }
-        await axios.post(urls,article).then((res) => {
+        await axios.put(urls,article).then((res) => {
           handleClose();
-          console.log(res.data);
-          if ( res.data.permit === true ){
-            props.setpermit(true)
-          }else{
-            handleClick2();
+          if(res.data){
+              window.location.href= "/profile";
           }
         })
       }
@@ -106,7 +88,7 @@ const Profile = ( props ) => {
               </div>
               <div className={ classes.root }>
               <Button variant="contained" color="success" size="large" onClick={ ()=>{ handle(); } }>
-                Check for Access
+                Change Profile Image
               </Button>
               </div>
             </Grid>
@@ -121,14 +103,9 @@ const Profile = ( props ) => {
             <CircularProgress color="inherit" />
           </Backdrop>
         </div>
-        <Snackbar open={open2} autoHideDuration={6000} onClose={handleClose2}>
-          <Alert onClose={handleClose2} severity="error" sx={{ width: '100%' }}>
-            The Capture Image Don't Match with Profile image
-          </Alert>
-        </Snackbar>
     </div>
   )
 }
 
-export default Profile
+export default ProfileChange
 

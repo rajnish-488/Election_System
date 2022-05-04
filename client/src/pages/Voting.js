@@ -2,11 +2,13 @@ import React, {useEffect, useState} from 'react'
 import axios from "axios";
 import Sorry from '../components/Sorry';
 import VtingC from '../components/VtingC';
+import Profile from './Profile'
 
 const Voting = () => {
   const [apply, setApply] = useState({});
   const [position, setPosition] = useState([]);
   const [user, setUser] = useState({});
+  const [permit, setPermit] = useState(false);
   useEffect(()=>{
     const user=localStorage.getItem("username");
     if( !user ){
@@ -28,9 +30,18 @@ const Voting = () => {
     }
     fun()
   },[])
+
+  const solve = () =>{
+    if(permit){
+      return <VtingC data={ position } userData= { user }/>
+    }else{
+        return <Profile setpermit = { setPermit } />
+    }
+  }
+
   return (
     <div>
-      { apply.Voting==="True"?<VtingC data={ position } userData= { user }/>:<Sorry data={ "Give the Vote"} />}
+      { apply.Voting==="True"?solve():<Sorry data={ "Give the Vote"} />}
     </div>
   )
 }
